@@ -5,6 +5,16 @@ const fs = require('fs');
 const app = express();
 const PORT = 3000;
 
+const dbPath = path.join(__dirname, 'data/db.json');
+// Check db
+const dataDir = path.join(__dirname, 'data');
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir);
+}
+if (!fs.existsSync(dbPath)) {
+  fs.writeFileSync(dbPath, '[]', 'utf-8');
+}
+
 // Static files 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -16,7 +26,7 @@ app.get('/', (req, res) => {
 
 // Return JSON data
 app.get('/api/data', (req, res) => {
-    fs.readFile(path.join(__dirname, 'data/db.json'), 'utf-8', (err, jsonData) => {
+    fs.readFile(dbPath, 'utf-8', (err, jsonData) => {
       if (err) {
         console.error('Failed to read db.json:', err);
         return res.status(500).json({ error: 'Internal server error' });
@@ -27,7 +37,6 @@ app.get('/api/data', (req, res) => {
 
 app.post('/api/reservation', (req, res) => {
   const reservation = req.body;
-  const dbPath = path.join(__dirname, 'data/db.json');
 
   // Read current data
   fs.readFile(dbPath, 'utf-8', (err, data) => {
