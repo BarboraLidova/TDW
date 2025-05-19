@@ -5,12 +5,7 @@ const fs = require('fs');
 const app = express();
 const PORT = 3000;
 
-const dbPath = path.join(__dirname, 'data/db.json');
-// Check db
-const dataDir = path.join(__dirname, 'data');
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir);
-}
+const dbPath = path.join('/mnt/data', 'db.json');
 if (!fs.existsSync(dbPath)) {
   fs.writeFileSync(dbPath, '[]', 'utf-8');
 }
