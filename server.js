@@ -19,14 +19,19 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-// Return JSON data
+// API route to return JSON data
 app.get('/api/data', (req, res) => {
-    fs.readFile(dbPath, 'utf-8', (err, jsonData) => {
+    fs.readFile(path.join(__dirname, 'data/db.json'), 'utf-8', (err, jsonData) => {
       if (err) {
         console.error('Failed to read db.json:', err);
         return res.status(500).json({ error: 'Internal server error' });
       }
-      res.json(JSON.parse(jsonData));
+      const Reservations = JSON.parse(jsonData);
+      const censored = Reservations.map(reserve => ({
+        date: reserve.date,
+        time: reserve.time
+      }));
+      res.json(censored);
     });
   });
 
