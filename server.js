@@ -19,9 +19,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-// API route to return JSON data
+// Return JSON data
 app.get('/api/data', (req, res) => {
-    fs.readFile(path.join(__dirname, 'data/db.json'), 'utf-8', (err, jsonData) => {
+    fs.readFile(dbPath, 'utf-8', (err, jsonData) => {
       if (err) {
         console.error('Failed to read db.json:', err);
         return res.status(500).json({ error: 'Internal server error' });
