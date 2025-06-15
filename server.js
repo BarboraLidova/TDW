@@ -26,8 +26,8 @@ app.get('/api/data', (req, res) => {
         console.error('Failed to read db.json:', err);
         return res.status(500).json({ error: 'Internal server error' });
       }
-      const Reservations = JSON.parse(jsonData);
-      const censored = Reservations.map(reserve => ({
+      const reservations = JSON.parse(jsonData);
+      const censored = reservations.map(reserve => ({
         date: reserve.date,
         time: reserve.time
       }));
