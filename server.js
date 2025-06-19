@@ -35,6 +35,17 @@ app.get('/api/data', (req, res) => {
     });
   });
 
+// Return JSON data
+app.get('/api/alldata', (req, res) => {
+    fs.readFile(dbPath, 'utf-8', (err, jsonData) => {
+      if (err) {
+        console.error('Failed to read db.json:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+      res.json(JSON.parse(jsonData));
+    });
+  });
+
 app.post('/api/reservation', (req, res) => {
   const reservation = req.body;
 
